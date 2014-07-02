@@ -1,0 +1,10 @@
+.slide-area img {
+  display: block;
+  height: auto;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.slide-viewer {
+  max-width: 900px;
+}
