@@ -1,0 +1,12 @@
+@charset 'utf8';
+
+body {
+	background: #EBEBEEB;
+}
+
+.slide-viewer {
+	background: #555;
+	margin: 0 auto;
+	padding: 20px;
+	width: 90%;
+}

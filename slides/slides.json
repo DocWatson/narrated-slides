@@ -1,0 +1,33 @@
+slides : {
+	"title-slide" : {
+		"title" : "Title Slide"
+	},
+	"slide" : {
+		"slug"  : "slide-1",
+		"title" : "Slide One"
+	},
+	"slide" : {
+		"slug"  : "slide-2",
+		"title" : "Slide Two"
+	},
+	"slide" : {
+		"slug"  : "slide-3",
+		"title" : "Slide Three"
+	},
+	"slide" : {
+		"slug"  : "slide-4",
+		"title" : "Slide Four"
+	},
+	"slide" : {
+		"slug"  : "slide-5",
+		"title" : "Slide Five"
+	},
+	"slide" : {
+		"slug"  : "slide-6",
+		"title" : "Slide Six"
+	},
+	"slide" : {
+		"slug"  : "slide-7",
+		"title" : "Slide Seven"
+	}
+}
