@@ -2,32 +2,43 @@
 	"titleSlide" : {
 		"title" : "Title Slide"
 	},
+	"termsSlide" : {
+		"file"      : "slides/terms.html",
+		"proceedOn" : "checkbox"
+	},
 	"slideDeck" : [
 		{
+			"file"  : "slides/slide1.html",
 			"slug"  : "slide-1",
 			"title" : "Slide One"
 		},
  		{
+			"file"  : "slides/slide2.html",
 			"slug"  : "slide-2",
 			"title" : "Slide Two"
 		},
 		{
+			"file"  : "slides/slide3.html",
 			"slug"  : "slide-3",
 			"title" : "Slide Three"
 		},
 		{
+			"file"  : "slides/slide4.html",
 			"slug"  : "slide-4",
 			"title" : "Slide Four"
 		},
 		{
+			"file"  : "slides/slide5.html",
 			"slug"  : "slide-5",
 			"title" : "Slide Five"
 		},
 		{
+			"file"  : "slides/slide6.html",
 			"slug"  : "slide-6",
 			"title" : "Slide Six"
 		},
 		{
+			"file"  : "slides/slide7.html",
 			"slug"  : "slide-7",
 			"title" : "Slide Seven"
 		}

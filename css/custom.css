@@ -5,6 +5,41 @@
   width: 100%;
 }
 
+.slide-area article {
+  position: relative;
+}
+
+.slide-area article audio {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
 .slide-viewer {
   max-width: 900px;
+}
+
+.slide-viewer .pip {
+  color: #FFF;
+  display: inline-block;
+  padding: 7px;
+  text-decoration: none;
+}
+
+.slide-viewer .pip.active {
+  color: #f2f565;
+  cursor: not-allowed;
+}
+
+.slide-viewer-next,
+.slide-viewer-prev {
+  color: #FFF;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.slide-viewer-next.disabled,
+.slide-viewer-prev.disabled {
+  color: #CCC;
+  cursor: not-allowed;
 }

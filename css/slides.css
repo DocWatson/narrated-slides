@@ -10,3 +10,17 @@ body {
 	padding: 20px;
 	width: 90%;
 }
+
+.slide-controls {
+	display: none;
+}
+
+.slide-controls.active {
+	display: block;
+}
+
+.slide-viewer-proceed-scroll {
+	/*just a default height; override as needed*/
+	height: 400px;
+	overflow: auto;
+}
