@@ -164,6 +164,7 @@ var narratedSlides = {
 			}
 		);
 
+		//TODO: get the slides to change when each audio file ends
 		$('audio').on(
 			'ended',
 			function() {
@@ -177,7 +178,6 @@ var narratedSlides = {
 	 * array
 	 */
 	loadSlide: function(targetSlide) {
-		console.log("TargetSlide: "+ targetSlide);
 		//make sure the slide we're trying to load is in fact a number
 		if(!isNaN(targetSlide)) {
 			//ensure the number is an integer
@@ -315,10 +315,8 @@ var narratedSlides = {
 	 * function to set up how to proceed through the terms of use slide
 	 */
 	setupTermsProceed: function() {
-		console.log('Terms Proceed+'+ narratedSlides.slides.termsSlide.hasOwnProperty('proceedOn'));
 		//ensure that a proceed on property exists
 		if(narratedSlides.slides.termsSlide.hasOwnProperty('proceedOn')) {
-			console.log('proceedOn: '+narratedSlides.slides.termsSlide.proceedOn);
 			switch(narratedSlides.slides.termsSlide.proceedOn) {
 				//if the proceed condition is to scroll
 				case "scroll":
