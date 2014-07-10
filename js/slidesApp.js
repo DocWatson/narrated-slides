@@ -1,28 +1,36 @@
 var narratedSlides = {
 	// variable to track which slide you're on {int}
 	currentSlide : 0,
+	// variable to allow deep linking with hashes {bool}
+	deepLinking  : true,
 	// variable to track error state {string}
 	error        : '',
-	// variable to determine whether there are terms of use or not
+	// variable to determine whether there are terms of use or not {bool}
 	hasTerms     : false,
+	// variable to maintain a global mute state {bool}
+	muted        : false,
+	// variable to stop auto-advancing slide {bool}
+	paused       : false,
 	// variable to hold array of slides {array}
 	slides       : null,
 	// variable to hold total slides {int}
 	totalSlides  : 0,
+	// variable to hold the audio's volume {float}
+	volume       : 1.0,
 
 	/**
 	 * function to disable previous and next buttons based on certain conditions
 	 */
 	checkControls: function(){
 		//at the beginning
-		if (narratedSlides.currentSlide === 0) {
+		if (narratedSlides.checkIfAtStart()) {
 			$('.slide-viewer-prev').addClass('disabled');
 		} else {
 			$('.slide-viewer-prev').removeClass('disabled');
 		}
 
 		//at the end
-		if (narratedSlides.currentSlide + 1 === narratedSlides.totalSlides) {
+		if (narratedSlides.checkIfAtEnd()) {
 			$('.slide-viewer-next').addClass('disabled');
 		} else {
 			$('.slide-viewer-next').removeClass('disabled');
@@ -95,6 +103,26 @@ var narratedSlides = {
 		}
 	},
 	/**
+	* function to determine if the presentation is at the end or not
+	*/
+	checkIfAtEnd: function() {
+		if(narratedSlides.currentSlide + 1 === narratedSlides.totalSlides) {
+			return true;
+		} else {
+			return false;
+		}
+	},
+	/**
+	 * function to determine if the presentation is at the start
+	 */
+	checkIfAtStart: function(){
+		if(narratedSlides.currentSlide === 0) {
+			return true;
+		} else {
+			return false;
+		}
+	},
+	/**
 	 * function to enable the slide viewer controls
 	 */
 	enableControls: function() {
@@ -114,8 +142,12 @@ var narratedSlides = {
 			narratedSlides.checkControls();
 			//check to see if we should display terms before starting the slides
 			narratedSlides.checkHasTerms();
-			//check the hashtag of the page to see where the presentation should begin
-			narratedSlides.getStartingSlide();
+			//if deeplinking is enabled, determine the starting point
+			if(narratedSlides.deepLinking) {
+				//check the hashtag of the page to see where the presentation should begin
+				narratedSlides.getStartingSlide();
+			}
+
 			//after getting the json, run the setup function to build nav controls
 			narratedSlides.setupControls();
 		})
@@ -142,7 +174,6 @@ var narratedSlides = {
 	},
 	/**
 	* function to run when a slide-viewer is detected
-	* @return {Void}
 	*/
 	init: function() {
 		//load the slides
@@ -163,14 +194,6 @@ var narratedSlides = {
 				}
 			}
 		);
-
-		//TODO: get the slides to change when each audio file ends
-		$('audio').on(
-			'ended',
-			function() {
-				console.log('AUDIO OVER');
-			}
-		);
 	},
 	/**
 	 * function to load in a specified slide
@@ -187,8 +210,13 @@ var narratedSlides = {
 				function(response){
 					//display the html file
 					$('.slide-area').html(response);
+					$('.slide-title').text(narratedSlides.slides.slideDeck[narratedSlides.currentSlide].title);
 					//make sure the interface is updated properly
 					narratedSlides.checkControls();
+					narratedSlides.setupAudioTrack();
+					if(narratedSlides.deepLinking) {
+						window.location.hash = narratedSlides.slides.slideDeck[narratedSlides.currentSlide].slug;
+					}
 				}
 			)
 			//fail promise to indicate if there was a failure loading the slide
@@ -224,16 +252,43 @@ var narratedSlides = {
 	 * function to easily load the next slide in the deck
 	 */
 	loadNextSlide: function(){
-		narratedSlides.loadSlide(narratedSlides.currentSlide + 1);
+		//make sure we are not at the end of the presentation
+		if(!narratedSlides.checkIfAtEnd()) {
+			narratedSlides.loadSlide(narratedSlides.currentSlide + 1);
+		}
 	},
-
 	/**
 	 * function to easily load the previous slide in the deck
 	 */
 	loadPrevSlide: function() {
-		narratedSlides.loadSlide(narratedSlides.currentSlide - 1);
+		//make sure we are not at the beginning of the presentation
+		if(!narratedSlides.checkIfAtStart()){
+			narratedSlides.loadSlide(narratedSlides.currentSlide - 1);
+		}
 	},
+	setupAudioTrack: function() {
+		if(narratedSlides.muted) {
+			$('audio').prop("muted",true);
+		} else {
+			$('audio').prop("volume",narratedSlides.volume);
+		}
 
+		$('audio').bind('ended', function(){
+			//if the global pause is not set, proceed to next slide
+			if(!narratedSlides.paused) {
+				narratedSlides.loadNextSlide();
+			}
+		});
+
+		$('audio').bind('volumechange',function(){
+			if($(this).prop("muted") || $(this).prop("volume") === 0) {
+				narratedSlides.muted = true;
+			} else {
+				narratedSlides.muted = false;
+				narratedSlides.volume = $(this).prop("volume");
+			}
+		});
+	},
 	/**
 	 * function to set up the slide viewer's controls
 	 */
