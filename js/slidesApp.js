@@ -360,9 +360,11 @@ var narratedSlides = {
 			//if the box has been checked, enable the proceed button
 			if($(this).is(':checked')) {
 				$('.slide-viewer-proceed').prop('disabled', false);
+				$('.slide-viewer-proceed').addClass('active');
 			} else {
 				//otherwise, make sure it's disabled
 				$('.slide-viewer-proceed').prop('disabled', true);
+				$('.slide-viewer-proceed').removeClass('active');
 			}
 		});
 	},
@@ -426,9 +428,11 @@ var narratedSlides = {
 			if(scrollDistance >= this.scrollHeight) {
 				//if scrolled to the end, enable the button
 				$('.slide-viewer-proceed').prop('disabled',false);
+				$('.slide-viewer-proceed').addClass('active');
 			} else {
 				//otherwise, keep it disabled
 				$('.slide-viewer-proceed').prop('disabled',true);
+				$('.slide-viewer-proceed').removeClass('active');
 			}
 		});
 	}
