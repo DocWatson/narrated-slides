@@ -44,6 +44,10 @@ var narratedSlides = {
 				$(this).removeClass('active');
 			}
 		});
+
+		//make sure to display the correct state of the play button
+	  // (audio plays on initial load, so we should make sure it is showing play)
+		$('.slide-viewer-play').removeClass("paused");
 	},
 	/**
 	 * function to determine whether to display the terms of use before beginning
@@ -319,6 +323,52 @@ var narratedSlides = {
 				}
 			}
 		);
+
+		//set up the play/pause button
+		$('.slide-viewer').on(
+            'click',
+            '.slide-viewer-play',
+            function (e) {
+                e.preventDefault();
+                //if the player is paused
+                if ($('audio').prop('paused')) {
+                    //show the playing state
+                    $(this).removeClass('paused');
+                    //play the audio
+                    $('audio')[0].play();
+                } else {
+                    //otherwise, show the paused state
+                    $(this).addClass('paused');
+                    //pause the audio
+                    $('audio')[0].pause();
+                }
+            }
+        );
+
+	    //set up the mute button
+		$('.slide-viewer').on(
+            'click',
+            '.slide-viewer-mute',
+            function (e) {
+                e.preventDefault();
+                //if the player is muted
+                if ($('audio').prop('muted')) {
+                    //show the muted state
+                    $(this).removeClass('muted');
+                    //unmute the audio
+                    $('audio').prop('muted', false);
+                    //tell the app we are no longer muted
+                    narratedSlides.muted = false;
+                } else {
+                    //otherwise, show the unmuted state
+                    $(this).addClass('muted');
+                    //mute the audio
+                    $('audio').prop('muted', true);
+                    //tell the app we are muted
+                    narratedSlides.muted = true;
+                }
+            }
+        );
 	},
 	/**
 	 * function to prepare clickable pips to jump to specific slides

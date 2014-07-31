@@ -32,6 +32,8 @@
 }
 
 .slide-viewer-next,
+.slide-viewer-mute,
+.slide-viewer-play,
 .slide-viewer-prev {
   color: #FFF;
   text-decoration: none;
